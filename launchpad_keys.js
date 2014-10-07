@@ -22,7 +22,9 @@ keysPage.updateOutputState = function()
    {
        var isCurrent = noteMaps[i] == activeNoteMap;
        var hasMap = noteMaps[i] != null;
+	   // sets the LED of the current notemap (top 4 side buttons)
        setRightLED(i, hasMap ? (isCurrent ? Colour.GREEN_FULL : Colour.GREEN_LOW) : Colour.OFF);
+	   // sets the velocity button color (bottom 4 side buttons)
        setRightLED(4 + i, seqPage.velocityStep == i ? Colour.AMBER_FULL : Colour.AMBER_LOW);
    }
 
@@ -31,6 +33,10 @@ keysPage.updateOutputState = function()
 
 keysPage.onShift = function(isPressed)
 {
+   if (isPressed)
+   {
+      activeNoteMap.mixerButton();
+   }
 }
 
 keysPage.onSceneButton = function(row, isPressed)
@@ -107,6 +113,7 @@ keysPage.onGridButton = function(row, column, pressed)
    }*/
 };
 
+// Draws the keys
 keysPage.drawKeys = function()
 {
    for(var y=0; y<8; y++)
