@@ -32,8 +32,6 @@ function stepSizeName(s)
    return "";
 }
 
-var velocities = [127, 100, 80, 50];
-
 seqPage.title = "Step Sequencer";
 seqPage.key = 36;
 seqPage.velocityStep = 2;
@@ -101,7 +99,9 @@ seqPage.setVelocity = function(step)
    this.velocityStep = step;
    this.velocity = velocities[step];
 
-   cursorTrack.playNote(this.key, this.velocity);
+   if(userVelNote == true){
+		cursorTrack.playNote(this.key, this.velocity);
+	};
    updateVelocityTranslationTable();
    host.showPopupNotification("Velocity: " + this.velocity);
 };
