@@ -2,6 +2,8 @@
  * Note map
  *
  * */
+ 
+ // Makes up all the Notemaps to be used within launchpad_keys.js
 
 function NoteMap()
 {
@@ -45,6 +47,7 @@ NoteMap.prototype.drawCell = function(x, y, highlight)
 {
    var key = this.cellToKey(x, y);
 
+   // sets the colours of the black and white keys
    var white = highlight ? Colour.AMBER_FULL : Colour.AMBER_LOW;
    var black = highlight ? Colour.RED_FULL : Colour.RED_LOW;
 
@@ -130,6 +133,10 @@ smallDrumNoteMap.scrollLeft = function()
    updateNoteTranlationTable();
 };
 
+smallDrumNoteMap.mixerButton = function()
+{
+};
+
 smallDrumNoteMap.getName = function()
 {
    return "Drums (small)";
@@ -183,6 +190,10 @@ largeDrumNoteMap.scrollRight = function()
 {
    activeNoteMap = smallDrumNoteMap;
    updateNoteTranlationTable();
+};
+
+largeDrumNoteMap.mixerButton = function()
+{
 };
 
 largeDrumNoteMap.getName = function()
@@ -250,6 +261,10 @@ LinearGridNoteMap.prototype.canScrollUp = function()
 LinearGridNoteMap.prototype.canScrollDown = function()
 {
    return this.rootKey  > 4;
+};
+
+LinearGridNoteMap.mixerButton = function()
+{
 };
 
 LinearGridNoteMap.prototype.getName = function()
@@ -335,6 +350,17 @@ pianoNoteMap.scrollDown = function()
    updateNoteTranlationTable();
 };
 
+//these next 2 functions were added to get rid of the error
+pianoNoteMap.scrollLeft = function()
+{
+};
+
+pianoNoteMap.scrollRight = function()
+{
+};
+
+
+
 pianoNoteMap.canScrollUp = function()
 {
    return this.rootKey < 108;
@@ -343,6 +369,10 @@ pianoNoteMap.canScrollUp = function()
 pianoNoteMap.canScrollDown = function()
 {
    return this.rootKey > 0;
+};
+
+pianoNoteMap.mixerButton = function()
+{
 };
 
 pianoNoteMap.getName = function()
@@ -365,18 +395,36 @@ var ModernModes =
 
 var ModernModesNames =
 [
-  ['Ionian'],
+  ['Ionian (Major)'],
   ['Dorian'],
   ['Phrygian'],
   ['Lydian'],
   ['Mixolydian'],
-  ['Aeolian'],
+  ['Aeolian (Natural minor scale)'],
   ['Locrian']
 
 ];
 
+var RootNoteNames = 
+
+[
+  ['C'],
+  ['C#'],
+  ['D'],
+  ['D# / Eb'],
+  ['E'],
+  ['F'],
+  ['F#'],
+  ['G'],
+  ['G#'],
+  ['A'],
+  ['A# / Bb'],
+  ['B']
+];
+
 diatonicNoteMap = new NoteMap();
 diatonicNoteMap.mode = 0;
+diatonicNoteMap.root = 0;
 
 diatonicNoteMap.cellToKey = function(x, y)
 {
@@ -405,16 +453,26 @@ diatonicNoteMap.scrollDown = function()
 
 diatonicNoteMap.scrollLeft = function()
 {
-   this.mode = Math.max(0, this.mode - 1);
+	if(this.root > 0)
+	{
+		this.rootKey = this.rootKey - 1;
+	}
+	this.root = Math.max(0, this.root - 1);
+   //this.mode = Math.max(0, this.mode - 1);
    updateNoteTranlationTable();
-   host.showPopupNotification("Scale: " + ModernModesNames[this.mode]);
+   host.showPopupNotification("Root: " + RootNoteNames[this.root] + " | Mode: " + ModernModesNames[this.mode]);
 };
 
 diatonicNoteMap.scrollRight = function()
 {
-   this.mode = Math.min(ModernModes.length - 1, this.mode + 1);
+	if(this.root < 11)
+	{
+		this.rootKey = this.rootKey + 1;
+	}
+	this.root = Math.min(11, this.root + 1);
+   //this.mode = Math.min(ModernModes.length - 1, this.mode + 1);
    updateNoteTranlationTable();
-   host.showPopupNotification("Scale: " + ModernModesNames[this.mode]);
+   host.showPopupNotification("Root: " + RootNoteNames[this.root] + " | Mode: " + ModernModesNames[this.mode]);
 };
 
 diatonicNoteMap.canScrollUp = function()
@@ -429,12 +487,26 @@ diatonicNoteMap.canScrollDown = function()
 
 diatonicNoteMap.canScrollLeft = function()
 {
-   return this.mode > 0;
+   return this.root > 0;
 };
 
 diatonicNoteMap.canScrollRight = function()
 {
-   return (this.mode + 1) < ModernModes.length;
+   return (this.root + 1) < RootNoteNames.length;
+};
+
+diatonicNoteMap.mixerButton = function()
+{
+   if (this.mode == ModernModes.length - 1)
+   {
+		this.mode = 0;
+   }
+   else
+   {
+		this.mode = this.mode + 1;
+   }
+   updateNoteTranlationTable();
+   host.showPopupNotification("Root: " + RootNoteNames[this.root] + " | Mode: " + ModernModesNames[this.mode]);
 };
 
 diatonicNoteMap.getName = function()
@@ -494,6 +566,10 @@ linear25Grid.scrollLeft = function()
 {
    activeNoteMap = linear34Grid;
    updateNoteTranlationTable();
+};
+
+linear25Grid.mixerButton = function()
+{
 };
 
 //----------------------------------------------------------------------------------------------------------
