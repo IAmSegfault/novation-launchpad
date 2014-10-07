@@ -1,4 +1,5 @@
 
+// CCs for the Top buttons
 var TopButton =
 {
    CURSOR_UP:104,
@@ -11,6 +12,7 @@ var TopButton =
    MIXER:111
 };
 
+// CCs for the Mixer Buttons
 var MixerButton =
 {
    VOLUME:0,
@@ -23,11 +25,14 @@ var MixerButton =
    ARM:7
 };
 
+// Called the scripts mainly within launchpad_grid
+// It is used for the Bitwig logo and the VUmeter
 function mixColour(red, green, blink)
 {
    return (blink ? 8 : 12) | red | (green * 16);
 }
 
+// Defines the values to be sent for the colours
 var Colour = // Novation are from the UK
 {
    OFF:12,
@@ -48,6 +53,8 @@ var Colour = // Novation are from the UK
    GREEN_FLASHING:56
 };
 
+// defines the LED locations with the pending and active LED arrays for the lights
+// They are used in the format LED.SCENE
 var LED =
 {
    GRID:0,
@@ -73,6 +80,7 @@ var LED =
    ARM:7
 };
 
+// Number of tracks, sends and scenes, they are called from the Launchpad.control.js file only during the init() function
 var NUM_TRACKS = 8;
 var NUM_SENDS = 2;
 var NUM_SCENES = 8;
