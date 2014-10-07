@@ -5,6 +5,7 @@
 
 drumPage = new Page();
 
+// Sets button 5 on top to on, allows scrolling up and down drums and then draws pads
 drumPage.updateOutputState = function()
 {
    clear();
@@ -39,6 +40,7 @@ drumPage.onDown = function(isPressed)
    seqPage.onDown(isPressed);
 };
 
+// Detects the presses and plays the appropiate notes and the key and velocity
 drumPage.onGridButton = function(row, column, pressed)
 {
    if (!pressed) return;
@@ -55,6 +57,7 @@ drumPage.onGridButton = function(row, column, pressed)
    cursorTrack.playNote(key, velocity);
 };
 
+// Draws the sections in a 4x4 pattern on the pads
 drumPage.drawPads = function()
 {
    if (activePage != drumPage) return;
